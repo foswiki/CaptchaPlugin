@@ -1,5 +1,5 @@
-# Visual Confirmation Plugin for TWiki Collaboration 
-# Platform, http://TWiki.org/
+# Visual Confirmation Plugin for Foswiki Collaboration 
+# Platform, http://Foswiki.org/
 #
 # Copyright (C) 2005-2007 Koen Martens, kmartens@sonologic.nl
 # Copyright (C) 2007 KwangErn Liew, kwangern@musmo.com
@@ -17,7 +17,7 @@
 #
 
 # =========================
-package TWiki::Plugins::CaptchaPlugin;
+package Foswiki::Plugins::CaptchaPlugin;
 
 # =========================
 use vars qw(
@@ -61,7 +61,7 @@ sub createImage(@) {
 	# we need background colour
 	my $background;
 
-	if ( $TWiki::cfg{Plugins}{CaptchaPlugin}{ColourSafe} ) {
+	if ( $Foswiki::cfg{Plugins}{CaptchaPlugin}{ColourSafe} ) {
 		# ColourSafe please
 		$background = $im->colorAllocate(0,0,0);
 	} else {
@@ -91,14 +91,14 @@ sub createImage(@) {
 
 		# we need some values
 		my $fontcolours;
-		my @fonts = glob( TWiki::Func::getPubDir()."/TWiki/CaptchaPlugin/fonts/*.ttf" );
+		my @fonts = glob( Foswiki::Func::getPubDir()."/Foswiki/CaptchaPlugin/fonts/*.ttf" );
 		my $rndfont = rand @fonts;
 		my $rndsize = int(rand(18))+14;
 		my $x = (($width/(length($txt)+1))*$i)+(($width/(length($txt)))-10);
 		my $y = $height/(rand(1.1)+1);
 
 		# are we ColourSafe?
-		if ( $TWiki::cfg{Plugins}{CaptchaPlugin}{ColourSafe} ) {
+		if ( $Foswiki::cfg{Plugins}{CaptchaPlugin}{ColourSafe} ) {
 			# we only need light colours against the black
 			my $shade = int(rand(155))+100;
 			my @shadecolours;
@@ -127,12 +127,12 @@ sub expire(@) {
   my $explicit=shift;
   $explicit='' unless($explicit);
 
-  TWiki::Func::writeDebug("expire called with explicit '$explicit'") if $debug;
+  Foswiki::Func::writeDebug("expire called with explicit '$explicit'") if $debug;
 
-  my $dbpath=TWiki::Func::getPubDir()."/TWiki/CaptchaPlugin/_db/hashes";
-  my $imgdir=TWiki::Func::getPubDir()."/TWiki/CaptchaPlugin/img/";
+  my $dbpath=Foswiki::Func::getPubDir()."/Foswiki/CaptchaPlugin/_db/hashes";
+  my $imgdir=Foswiki::Func::getPubDir()."/Foswiki/CaptchaPlugin/img/";
 
-  my $expiry=$TWiki::cfg{Plugins}{CaptchaPlugin}{Expiry} || 3600;
+  my $expiry=$Foswiki::cfg{Plugins}{CaptchaPlugin}{Expiry} || 3600;
   $expiry=int($expiry);
   my $now=time();
 
@@ -142,16 +142,16 @@ sub expire(@) {
 
   my @dbkeys=keys(%database);
   for my $key (@dbkeys) {
-    TWiki::Func::writeDebug("checking $key") if $debug;
+    Foswiki::Func::writeDebug("checking $key") if $debug;
 	my $value=$database{$key};
 	my ($time,$txt)=split(",",$value);
 	if( ($key eq $explicit) || ($now>=$time+$expiry) ) {
-	  TWiki::Func::writeDebug(" expiring") if debug;
+	  Foswiki::Func::writeDebug(" expiring") if debug;
 	  delete($database{$key});
 	  my $tainted="$imgdir/$key.png";
 	  $tainted=~/^(.*)$/;
 	  my $untainted=$1;
-	  TWiki::Func::writeDebug(" unlinking $untainted") if $debug;
+	  Foswiki::Func::writeDebug(" unlinking $untainted") if $debug;
 	  unlink($untainted);
 	}
   }
@@ -190,26 +190,26 @@ sub initPlugin
     ( $topic, $web, $user, $installWeb ) = @_;
 
     # check for Plugins.pm versions
-    if( $TWiki::Plugins::VERSION < 1.021 ) {
-        TWiki::Func::writeWarning( "Version mismatch between $pluginName and Plugins.pm" );
+    if( $Foswiki::Plugins::VERSION < 1.021 ) {
+        Foswiki::Func::writeWarning( "Version mismatch between $pluginName and Plugins.pm" );
         return 0;
     }
 
     # Get plugin debug flag
-    $debug = TWiki::Func::getPluginPreferencesFlag( "DEBUG" ) || 0;
+    $debug = Foswiki::Func::getPluginPreferencesFlag( "DEBUG" ) || 0;
 
     $initialised=0;
     
     # Plugin correctly initialized
-    TWiki::Func::writeDebug( "- TWiki::Plugins::${pluginName}::initPlugin( $web.$topic ) is OK" ) if $debug;
+    Foswiki::Func::writeDebug( "- Foswiki::Plugins::${pluginName}::initPlugin( $web.$topic ) is OK" ) if $debug;
     return 1;
 }
 
 sub commonTagsHandler
 {
-    TWiki::Func::writeDebug( "- ${pluginName}::commonTagsHandler( $_[2].$_[1] )" ) if $debug;
+    Foswiki::Func::writeDebug( "- ${pluginName}::commonTagsHandler( $_[2].$_[1] )" ) if $debug;
     if($_[0] =~ /%CAPTCHAURL%/) {
-    TWiki::Func::writeDebug( "action" ) if $debug;
+    Foswiki::Func::writeDebug( "action" ) if $debug;
       eval {
         require Digest::MD5;
         require GD;
@@ -217,17 +217,17 @@ sub commonTagsHandler
 	# we check, but normally this happens once only anyway
 	if($initialised==0) {
 
-        my $numChars = $TWiki::cfg{Plugins}{CaptchaPlugin}{NumberOfCharacters};
-        my $chars = $TWiki::cfg{Plugins}{CaptchaPlugin}{Characters};
+        my $numChars = $Foswiki::cfg{Plugins}{CaptchaPlugin}{NumberOfCharacters};
+        my $chars = $Foswiki::cfg{Plugins}{CaptchaPlugin}{Characters};
 
         $txt=randomTxt($chars,$numChars);
         $hash=Digest::MD5->md5_hex($txt.time().rand());
         $imgfile="$hash.png";
 
-        $imgpath=TWiki::Func::getPubDir()."/TWiki/CaptchaPlugin/img/".$imgfile;
-        $imgdir=TWiki::Func::getPubDir()."/TWiki/CaptchaPlugin/img/";
-        $dbpath=TWiki::Func::getPubDir()."/TWiki/CaptchaPlugin/_db/hashes";
-        $imgurl=TWiki::Func::getPubUrlPath()."/TWiki/CaptchaPlugin/img/".$imgfile;
+        $imgpath=Foswiki::Func::getPubDir()."/Foswiki/CaptchaPlugin/img/".$imgfile;
+        $imgdir=Foswiki::Func::getPubDir()."/Foswiki/CaptchaPlugin/img/";
+        $dbpath=Foswiki::Func::getPubDir()."/Foswiki/CaptchaPlugin/_db/hashes";
+        $imgurl=Foswiki::Func::getPubUrlPath()."/Foswiki/CaptchaPlugin/img/".$imgfile;
 
 		$initialised=1;
 	}
@@ -249,34 +249,34 @@ sub commonTagsHandler
    * =$text= - text _with embedded meta-data tags_
    * =$topic= - the name of the topic in the current CGI query
    * =$web= - the name of the web in the current CGI query
-   * =$meta= - the metadata of the topic being saved, represented by a TWiki::Meta object.
+   * =$meta= - the metadata of the topic being saved, represented by a Foswiki::Meta object.
 =cut
 
 sub beforeSaveHandler {
-	return unless($TWiki::cfg{Plugins}{CaptchaPlugin}{EnableSave});
+	return unless($Foswiki::cfg{Plugins}{CaptchaPlugin}{EnableSave});
 
-	my $query = TWiki::Func::getCgiQuery();
-	my $check_user = TWiki::Func::getWikiName();
+	my $query = Foswiki::Func::getCgiQuery();
+	my $check_user = Foswiki::Func::getWikiName();
 
     if ( $check_user eq "TWikiRegistrationAgent" ) { return }
 
-    if ( $check_user eq $TWiki::cfg{DefaultUserWikiName} || $TWiki::cfg{Plugins}{CaptchaPlugin}{SaveForAll}) {
+    if ( $check_user eq $Foswiki::cfg{DefaultUserWikiName} || $Foswiki::cfg{Plugins}{CaptchaPlugin}{SaveForAll}) {
 
 		my %database;
 		my $vcHash = $query->param('Twk1CaptchaHash');
 		my $vcTxt = $query->param('Twk1CaptchaString');
 
-		open(LOCKFILE,">".TWiki::Func::getPubDir()."/TWiki/CaptchaPlugin/_db/hashes.lock");
+		open(LOCKFILE,">".Foswiki::Func::getPubDir()."/Foswiki/CaptchaPlugin/_db/hashes.lock");
 		flock(LOCKFILE,2);
 
-	    dbmopen(%database, TWiki::Func::getPubDir()."/TWiki/CaptchaPlugin/_db/hashes",0644);
+	    dbmopen(%database, Foswiki::Func::getPubDir()."/Foswiki/CaptchaPlugin/_db/hashes",0644);
 
 	    my ($time,$txt) = split(',',$database{$vcHash});
 
 			if ( not(lc($txt) eq lc($vcTxt)) || $txt eq '' ) {
 				dbmclose(%database);
 				close(LOCKFILE);
-				throw TWiki::OopsException( 'captcha',
+				throw Foswiki::OopsException( 'captcha',
 				                            web => $web,
 				                            topic => $topic,
 						                    def => 'invalid_vcstr',
@@ -286,7 +286,7 @@ sub beforeSaveHandler {
 		dbmclose(%database);
 		close(LOCKFILE);
 
-		if($TWiki::cfg{Plugins}{CaptchaPlugin}{DeleteAfterSave}) {
+		if($Foswiki::cfg{Plugins}{CaptchaPlugin}{DeleteAfterSave}) {
 			expire($vcHash);
 		}
 	}
