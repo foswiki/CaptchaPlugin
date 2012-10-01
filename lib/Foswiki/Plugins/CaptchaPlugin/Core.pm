@@ -1,7 +1,7 @@
-# Visual Confirmation Plugin for Foswiki Collaboration 
+# Visual Confirmation Plugin for Foswiki Collaboration
 # Platform, http://Foswiki.org/
 #
-# Copyright (C) 2011 Michael Daum, daum@michaeldaumconsulting.com
+# Copyright (C) 2011-2012 Michael Daum, http://michaeldaumconsulting.com
 # Copyright (C) 2005-2007 Koen Martens, kmartens@sonologic.nl
 # Copyright (C) 2007 KwangErn Liew, kwangern@musmo.com
 #
@@ -13,7 +13,7 @@
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details, published at 
+# GNU General Public License for more details, published at
 # http://www.gnu.org/copyleft/gpl.html
 #
 
@@ -80,7 +80,7 @@ sub jsonRpcCreate {
 
   require Foswiki::Plugins::CaptchaPlugin::Captcha;
   return Foswiki::Plugins::CaptchaPlugin::Captcha->new(
-    $this->getStore, 
+    $this->getStore,
     params => $request->params,
   )->toHash();
 }
@@ -110,7 +110,7 @@ sub isValidCaptcha {
   my $captcha = $this->getStore()->readCaptcha($challenge);
   unless ($captcha) {
     my $remoteAddress = Foswiki::Func::getRequestObject()->remoteAddress();
-    $challenge ||= '???'; 
+    $challenge ||= '???';
     my $msg = "Warning: Requesting check on unknown captcha $challenge from $remoteAddress";
     Foswiki::Func::writeWarning($msg);
     print STDERR $msg."\n";
@@ -121,6 +121,26 @@ sub isValidCaptcha {
 }
 
 # =========================
+sub validateRegistration {
+  my ($this, $data) = @_;
+
+  # not using $data as it requires special names on form fields
+
+  my $query = Foswiki::Func::getCgiQuery();
+  my $challenge = $query->param('captcha_challenge');
+  my $response = $query->param('captcha_response');
+
+  if(!defined($challenge) || !defined($response) || !$this->isValidCaptcha($challenge, $response, 1)) {
+    throw Foswiki::OopsException(
+      'captcha',
+      web    => $data->{webName},
+      topic  => $this->{session}->{topicName},
+      def => 'captcha::invalid_response',
+    );
+  }
+}
+
+# ====================== ===
 sub beforeSaveHandler {
   my ($this, undef, $topic, $web ) = @_;
 

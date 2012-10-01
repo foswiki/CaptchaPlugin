@@ -1,49 +1,35 @@
-%META:TOPICINFO{author="ProjectContributor" date="1186585733" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1343124854" format="1.1" reprev="2" version="2"}%
 ---+!! %TOPIC%
-
-A visual confirmation plugin, known as Captcha, for new user registration.
-This plugin prevents automated scripts in creating users and spam your wiki with their url's to get a better google ranking.
+%SHORTDESCRIPTION%
 
 %TOC%
 
+---++ Description
+
+This plugin tries to prevent automated scripts from creating users and spam your wiki. It does so by requiring a
+simple test to ensure that the request is done by a human being. The Captcha encodes information into a distorted image
+containing letters and digits. This information is easy to generate for the computer, easy to read for human beings but
+hard to recognize by computers. Note however, that Captchas aren't 100% bullet proof. They only raise the bar for automated
+scripts to pass the test. There are regular reports of Captchas of a specific kind being solved automatically for high profile internet sites.
+
+!CaptchaPlugin tries to create challenge-response tests hard enough to solve for computers, but does not claim that its tests are unbreakable
+on any scale. Read more about captchas at http://en.wikipedia.org/wiki/CAPTCHA.
+
 ---++ Syntax Rules
 
-%INCLUDE{"VarCAPTCHA"}%
+---+++ CAPTCHA
+
+---+++ CAPTCHAFORM
+
+---+++ CAPTCHACHECK
 
 ---++ Installation Instructions
 
 %$INSTALL_INSTRUCTIONS%
 
-   * Restrict access to the files, for example, by including the following in your httpd.conf:
-    <verbatim class="xml">
-<Directory "/path/to/foswiki/pub/System/%TOPIC%/db">
-  deny from all
-</Directory>
-<Directory "/path/to/foswiki/pub/System/CaptchaPlugin/fonts">
-  deny from all
-</Directory>
-</verbatim>
-   * Enable the plugin via the =bin/configure= script
-   * Test if the installation was successful:
-      * Create a topic containing the macro =%<nop>CAPTCHA%=
-      * When loading this topic you should see an obfuscated character string loaded as a png and a hexadecimal hash.
-      * Check whether the hash database is properly protected by going to the url http://my.wiki.server/my/foswiki/path/pub/System/%TOPIC%/db/hashes.pag, you should see a permission denied message.
-   * Now edit your System.UserRegistration topic
-      * Display the image =%CAPTCHA%= somewhere in your form, along with a text instructing new users to copy the obfuscated text into the appropriate text input.
-      * For example, add this to your System.UserRegistration:
-        <verbatim class="tml">%CAPTCHAFORM%</verbatim>
-
----+++ Captcha on topic edit
-
-If you want to protect edits by %USERSWEB%.WikiGuest with a captcha, add the following line to your =lib/LocalSite.cfg=:
-
-<verbatim>$Foswiki::cfg{Plugins}{CaptchaPlugin}{EnableSave} = 1;</verbatim>
-
-A =editcaptcha.tmpl= has been prepared for you. All you need to do is TMPL:INCLUDE it into your =edit*.tmpl=. Two patches are available for Pattern (=edit.pattern.tmpl=) and !NatSkin (=edittoolbar.nat.tmpl=).
-
 ---++ Plugin Info
 <!--
-   * Set SHORTDESCRIPTION = Visual confirmation to prevent automated bots from spamming
+   * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
 -->
 
 |  Author(s): | Foswiki:Main.KoenMartens, Foswiki:Main.KwangErnLiew, Foswiki:Main.MichaelDaum |

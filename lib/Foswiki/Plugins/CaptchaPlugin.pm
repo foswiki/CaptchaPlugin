@@ -1,7 +1,7 @@
 # Visual Confirmation Plugin for Foswiki Collaboration
 # Platform, http://Foswiki.org/
 #
-# Copyright (C) 2011 Michael Daum, daum@michaeldaumconsulting.com
+# Copyright (C) 2011-2012 Michael Daum, http://michaeldaumconsulting.com
 # Copyright (C) 2005-2007 Koen Martens, kmartens@sonologic.nl
 # Copyright (C) 2007 KwangErn Liew, kwangern@musmo.com
 #
@@ -23,39 +23,36 @@ package Foswiki::Plugins::CaptchaPlugin;
 use strict;
 use warnings;
 
+use Foswiki::Func ();
+use Foswiki::Plugins ();
+use Foswiki::OopsException ();
+
 our $VERSION = '$Rev$';
 our $RELEASE = '2.0';
-our $SHORTDESCRIPTION = 'Visual confirmation to prevent automated bots from spamming';
+our $SHORTDESCRIPTION = 'A visual challenge-response test to prevent automated scripts from using the wiki';
 our $NO_PREFS_IN_TOPIC = 1;
 our $core;
-our $origValidateRegistration;
+our $origValidateRegistration; # used for pre 2.3 foswikis
 
-# monkey-patch API ========
 BEGIN {
-  require Foswiki::UI::Register;
+  if ($Foswiki::Plugins::VERSION < 2.3) {
+    # monkey-patch our version
 
-  # patch in our version
-  no warnings 'redefine';
-  $origValidateRegistration = \&Foswiki::UI::Register::_validateRegistration;
-  *Foswiki::UI::Register::_validateRegistration = \&Foswiki::Plugins::CaptchaPlugin::validateRegistration;
-  use warnings 'redefine';
+    require Foswiki::UI::Register;
 
-  # don't add these to the user's topic 
-  #$Foswiki::UI::Register::SKIPKEYS{CaptchaResponse} = 1;
-  #$Foswiki::UI::Register::SKIPKEYS{CaptchaChallenge} = 1;
+    no warnings 'redefine';
+    $origValidateRegistration = \&Foswiki::UI::Register::_validateRegistration;
+    *Foswiki::UI::Register::_validateRegistration = \&Foswiki::Plugins::CaptchaPlugin::validateRegistration;
+    use warnings 'redefine';
+  }
 }
 
 use Foswiki::Contrib::JsonRpcContrib ();
 use Foswiki::Plugins::JQueryPlugin ();
 
+
 # =========================
 sub initPlugin {
-
-  # check for Plugins.pm versions
-  if ($Foswiki::Plugins::VERSION < 1.021) {
-    Foswiki::Func::writeWarning("Version mismatch between CaptchaPlugin and Plugins.pm");
-    return 0;
-  }
 
   # register macros
   Foswiki::Func::registerTagHandler('CAPTCHA', sub { return getCore(shift)->CAPTCHA(@_); });
@@ -79,7 +76,6 @@ sub initPlugin {
   return 1;
 }
 
-
 # =========================
 sub beforeSaveHandler {
   return unless $Foswiki::cfg{Plugins}{CaptchaPlugin}{EnableSave};
@@ -102,6 +98,13 @@ sub getCore {
 }
 
 # =========================
+# Handler for $Foswiki::Plugins::VERSION >= 2.3 and later
+sub validateRegistrationHandler {
+  return getCore()->validateRegistration(@_);
+}
+
+# =========================
+# only used for $Foswiki::Plugins::VERSION < 2.3
 sub validateRegistration {
   my ($session, $data, $requireForm) = @_;
 

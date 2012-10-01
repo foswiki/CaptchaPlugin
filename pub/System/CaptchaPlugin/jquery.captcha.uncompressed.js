@@ -26,14 +26,18 @@ jQuery(function($) {
     captcha.init();
   }
 
-  Captcha.prototype.load = function() {
+  Captcha.prototype.load = function(async) {
     var captcha = this,
         $container = $(captcha.element).find(captcha.options.captchaContainer);
 
     //console.log("load container=",$container);
+    if (typeof(async) === 'undefined') {
+      async = true;
+    }
 
     $.jsonRpc(
       captcha.options.endpoint, {
+        async: async,
         method:"create",
         params: captcha.options.createParams,
         success: function(json, status, xhr) {
@@ -55,7 +59,7 @@ jQuery(function($) {
     //console.log("init");
     
     // loading img
-    captcha.load();
+    captcha.load(false);
 
     // reload behavior
     $captcha.find(captcha.options.reloadButton).each(function() {
@@ -64,7 +68,7 @@ jQuery(function($) {
       $btn.click(function() {
         captcha.unflagError();
         captcha.unflagSuccess();
-        captcha.load();
+        captcha.load(false);
         $captcha.find("input[name='"+captcha.options.challengeName+"']").val("").focus();
         return false;
       });
@@ -128,17 +132,15 @@ jQuery(function($) {
       });
     }
 
-   //console.log("isValid=",isValid);
+    //console.log("isValid=",isValid);
     if (isValid) {
-      captcha.unflagError();
       captcha.flagSuccess();
       if (captcha.options.disableOnSuccess) {
         $response.attr("disabled", "disabled");
         $challenge.attr("disabled", "disabled");
       }
     } else {
-      captcha.load();
-      captcha.unflagSuccess();
+      captcha.load(false);
       captcha.flagError();
       $response.val("").focus();
     }
@@ -149,6 +151,7 @@ jQuery(function($) {
   Captcha.prototype.flagError = function() {
     var captcha = this, $captcha = $(captcha.element);
 
+    //console.log("flagError for ",$captcha);
     captcha.unflagSuccess();
     $captcha.find("input[name='"+captcha.options.responseName+"']").addClass("error");
     $captcha.find("label.error").show();
@@ -188,8 +191,6 @@ jQuery(function($) {
   $(".jqCaptcha:not(.jqCaptchaInited)").livequery(function() {
     var $this = $(this),
         options = $.extend({}, $this.metadata());
-
-    //console.log("livequery");
 
     $this.addClass("jqCaptchaInited").captcha(options);
   });

@@ -83,7 +83,8 @@ $Foswiki::cfg{Plugins}{CaptchaPlugin}{NumberOfCharacters} = 6;
 $Foswiki::cfg{Plugins}{CaptchaPlugin}{Characters} = 'abcdefghijklmnopqrstuvwxyz';  
 
 # **BOOLEAN**
-# Enable captcha for topic save
+# Enable captcha for topic save. By default ony WikiGuests need to provide a valid captcha.
+# Enable {SaveForAll} to require even normal users to validate their input.
 $Foswiki::cfg{Plugins}{CaptchaPlugin}{EnableSave} = 0;
 
 # **BOOLEAN**
