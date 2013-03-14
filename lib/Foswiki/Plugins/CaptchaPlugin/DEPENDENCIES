@@ -1,2 +1,2 @@
 GD,>=2.39,cpan,Required.
-Foswiki::Plugins::JsonRpcContrib,>=1.30,perl,Required. 
+Foswiki::Contrib::JsonRpcContrib,>=1.30,perl,Required. 
