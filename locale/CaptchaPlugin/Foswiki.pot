@@ -11,6 +11,7 @@ msgstr ""
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -19,16 +20,16 @@ msgstr ""
 msgid "Attention"
 msgstr ""
 
-#: templates/editcaptcha.tmpl:4
-msgid "Can't read security code?"
-msgstr ""
-
 #: templates/captcha.tmpl:29
 msgid "Invalid validation code"
 msgstr ""
 
 #: templates/oopscaptcha.tmpl:5
 msgid "Please go back and <a href='javascript:history.back()'>try again</a>."
+msgstr ""
+
+#: data/System/CaptchaPlugin.txt:57 data/System/CaptchaPlugin.txt:78
+msgid "Submit"
 msgstr ""
 
 #: templates/oopscaptcha.tmpl:4
@@ -45,7 +46,7 @@ msgstr ""
 msgid "Validation successful"
 msgstr ""
 
-#: templates/captcha.tmpl:13 templates/editcaptcha.tmpl:4
+#: templates/captcha.tmpl:13
 msgid "Verification code"
 msgstr ""
 

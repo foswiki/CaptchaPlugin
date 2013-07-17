@@ -8,9 +8,9 @@
 %TMPL:P{"captcha::javascript"}%<!-- -->
 <!-- -->%TMPL:END%
 
-%TMPL:DEF{"captcha::start"}%<div class="foswikiFormStep"><div class="jqCaptcha">%TMPL:END%
+%TMPL:DEF{"captcha::start"}%<div class="foswikiFormStep"><div class='jqCaptcha {"validateOnSubmit":%validateOnSubmit%, "disableOnSuccess":%disableOnSuccess%}'>%TMPL:END%
 
-%TMPL:DEF{"captcha::title"}%<h3>%MAKETEXT{"Verification code"}%: <span class="foswikiAlert">**</span></h3>%TMPL:END%
+%TMPL:DEF{"captcha::title"}%<h3 >%MAKETEXT{"Verification code"}%: <span class="foswikiAlert">**</span></h3>%TMPL:END%
 
 %TMPL:DEF{"captcha::image"}%<!-- -->
   <div class="foswikiRight" style="margin-left:2em">

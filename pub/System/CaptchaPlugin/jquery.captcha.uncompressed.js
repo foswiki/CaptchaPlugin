@@ -194,4 +194,5 @@ jQuery(function($) {
 
     $this.addClass("jqCaptchaInited").captcha(options);
   });
+
 });

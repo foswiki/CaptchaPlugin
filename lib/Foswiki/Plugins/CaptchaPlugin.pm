@@ -27,12 +27,12 @@ use Foswiki::Func ();
 use Foswiki::Plugins ();
 use Foswiki::OopsException ();
 
-our $VERSION = '$Rev$';
-our $RELEASE = '2.0';
+use version; our $VERSION = version->declare("v2.0.0");
+our $RELEASE = '17 Jul 2013';
 our $SHORTDESCRIPTION = 'A visual challenge-response test to prevent automated scripts from using the wiki';
 our $NO_PREFS_IN_TOPIC = 1;
 our $core;
-our $origValidateRegistration; # used for pre 2.3 foswikis
+our $origValidateRegistration;    # used for pre 2.3 foswikis
 
 BEGIN {
   if ($Foswiki::Plugins::VERSION < 2.3) {
@@ -50,7 +50,6 @@ BEGIN {
 use Foswiki::Contrib::JsonRpcContrib ();
 use Foswiki::Plugins::JQueryPlugin ();
 
-
 # =========================
 sub initPlugin {
 
@@ -63,15 +62,23 @@ sub initPlugin {
   Foswiki::Func::registerRESTHandler("validate", \&restValidate);
 
   # register jsonrpc backends
-  Foswiki::Contrib::JsonRpcContrib::registerMethod("CaptchaPlugin", "create", sub {
-    return getCore(shift)->jsonRpcCreate(@_);
-  });
+  Foswiki::Contrib::JsonRpcContrib::registerMethod(
+    "CaptchaPlugin",
+    "create",
+    sub {
+      return getCore(shift)->jsonRpcCreate(@_);
+    }
+  );
 
   # register jquery plugin
   Foswiki::Plugins::JQueryPlugin::registerPlugin("captcha", "Foswiki::Plugins::CaptchaPlugin::JQueryPlugin");
 
   # init vars
   $core = undef;
+
+  # enter CaptchaEnableSave context
+  Foswiki::Func::getContext()->{CaptchaEnableSave} = 1
+    if $Foswiki::cfg{Plugins}{CaptchaPlugin}{EnableSave};
 
   return 1;
 }

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1343124854" format="1.1" reprev="2" version="2"}%
+%META:TOPICINFO{author="micha" date="1374090677" format="1.1" reprev="2" version="3"}%
 ---+!! %TOPIC%
 %SHORTDESCRIPTION%
 
@@ -19,9 +19,96 @@ on any scale. Read more about captchas at http://en.wikipedia.org/wiki/CAPTCHA.
 
 ---+++ CAPTCHA
 
+This macro renders a simple captcha interface based on the =jqCaptcha= jQuery plugin (an image and a click handler to reload it). In most
+cases you'd use the CAPTCHAFORM macro for a more ready-to-use widget.
+
 ---+++ CAPTCHAFORM
 
+This simply expands to the captcha form as defined in the =captcha.tmpl= template. 
+
+Parameters:
+
+   * validateonsubmit: boolean value specifying when the form is being validated. If set to true (default) validation of the captcha will
+     be performed on the client already when clicking on the "Submit" button. If set to false, validation happens on the server side only.
+   * disableonsuccess: boolean value specifying when the challenge is going to be "consumed" while validating it on the client side. This defaults to false
+     so that the server validation check on the same challenge gets a chance to pass as well.
+
 ---+++ CAPTCHACHECK
+
+This macro can be used in own wiki applications to check a challenge at some point. It takes a challenge identifier and a response and verifies
+it while expanding the macro. Based on the result either =error= or =success= is returned.
+
+Parameters:
+
+   * challenge: the captcha challenge identifier
+   * response: the response as provided by the user
+   * error: format string to be returned when validation failed
+   * success: format string to be returned when validation succeeded
+
+---++ Example
+
+You type:
+
+<verbatim class="tml">
+<form action="%SCRIPTURLPATH{view}%/%WEB%/%TOPIC%#example" id="example">
+<div class="foswikiFormSteps">
+  %CAPTCHAFORM%
+  <div class="foswikiFormStep">
+    %BUTTON{"%MAKETEXT{"Submit"}%" icon="tick" type="submit"}%
+    %CLEAR%
+  </div>
+</div>
+</form>
+
+%CAPTCHACHECK{
+  challenge="%URLPARAM{"captcha_challenge"}%"
+  response="%URLPARAM{"captcha_response"}%"
+  error="%JQICON{"error"}% There was an error checking the validation code."
+  success="%JQICON{"accept"}% The validation code has been checked successfully."
+}%
+</verbatim>
+
+%IF{"context CaptchaPluginEnabled" else="<div class='foswikiHidden'>"}%
+You get:
+
+<form action="%SCRIPTURLPATH{view}%/%WEB%/%TOPIC%#example" id="example">
+<div class="foswikiFormSteps">
+  %CAPTCHAFORM%
+  <div class="foswikiFormStep">
+    %BUTTON{"%MAKETEXT{"Submit"}%" icon="tick" type="submit"}%
+    %CLEAR%
+  </div>
+</div>
+</form>
+
+%CAPTCHACHECK{
+  challenge="%URLPARAM{"captcha_challenge"}%"
+  response="%URLPARAM{"captcha_response"}%"
+  error="%JQICON{"error"}% There was an error checking the validation code."
+  success="%JQICON{"accept"}% The validation code has been checked successfully."
+}%
+
+%IF{"context CaptchaPluginEnabled" else="</div>"}%
+
+%IF{"context CaptchaPluginEnabled" then="<div class='foswikiHidden'>"}%
+You get (if installed)
+
+<img src="%ATTACHURLPATH%/CaptchaSnap1.png" alt="captcha snapshot" />
+%IF{"context CaptchaPluginEnabled" then="</div>"}%
+
+
+---++ Captcha-protected editing of topics
+
+By switching on the ={EnableSave}= parameter in your Foswiki configuration, editing wiki topics will be guarded by
+requiring a captcha challenge to be passed. This feature is disabled by default as Foswiki core's own Strike-One mechanism
+is already well suited to protect accidental save actions to be performed (e.g. as performed by spam bots). In some cases
+an additional captcha guard might be interesting as to allow unauthenticated guests of a wiki to do regular edits.
+Use the ={EnableSave}= switch to enable this. The captcha challenge for topic edits can also be demanded even for registered
+users by enabling the ={SaveForAll}= flag. WARNING: this might raise the barrier to contribute to the wiki a bit too high
+for practical use. Only enable this feature when you really know what you are doing.
+
+As by now the ={EnableSave}= feature is best integrated into the [[Foswiki:Extensions/NatEditPlugin][NatEditPlugin]] while
+needing extra provisions for other editors.
 
 ---++ Installation Instructions
 
@@ -37,6 +124,7 @@ on any scale. Read more about captchas at http://en.wikipedia.org/wiki/CAPTCHA.
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | &nbsp; |
+|  17 Jul 2013: | brought back to live and improved - Foswiki:Main.MichaelDaum |
 |  24 Dec 2009: | started to port to foswiki - Foswiki:Main.SvenDowideit |
 |  28 Oct 2007: | Fixed bug on <nop>RegistrationAgent |
 |  16 Aug 2007: | Added black and white shades only; Added =editcaptcha.tmpl=; Moved all attributes to =LocalSite.cfg=; Removed <nop>DeleteAfterRegistration |
@@ -50,3 +138,5 @@ on any scale. Read more about captchas at http://en.wikipedia.org/wiki/CAPTCHA.
 |  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
 |  Feedback: | http://foswiki.org/Support/%TOPIC%Dev |
 
+
+%META:FILEATTACHMENT{name="CaptchaSnap1.png" attachment="CaptchaSnap1.png" attr="" comment="" date="1374090676" size="16367" user="micha" version="1"}%

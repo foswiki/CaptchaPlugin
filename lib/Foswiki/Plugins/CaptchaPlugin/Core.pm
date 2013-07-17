@@ -91,7 +91,14 @@ sub CAPTCHAFORM {
 
   Foswiki::Func::readTemplate("captcha");
 
-  return Foswiki::Func::expandTemplate("captcha");
+  my $data = Foswiki::Func::expandTemplate("captcha");
+  my $validateOnSubmit = Foswiki::Func::isTrue($params->{validateonsubmit}, 1)?"true":"false";
+  my $disableOnSuccess = Foswiki::Func::isTrue($params->{disableonsuccess}, 0)?"true":"false";
+
+  $data =~ s/%validateOnSubmit%/$validateOnSubmit/g;
+  $data =~ s/%disableOnSuccess%/$disableOnSuccess/g;
+
+  return $data;
 }
 
 # =========================
