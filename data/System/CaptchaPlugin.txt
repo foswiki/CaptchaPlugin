@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="micha" date="1374090677" format="1.1" reprev="2" version="3"}%
+%META:TOPICINFO{author="ProjectContributor" date="1374090677" format="1.1" reprev="2" version="3"}%
 ---+!! %TOPIC%
 %SHORTDESCRIPTION%
 
@@ -139,4 +139,4 @@ needing extra provisions for other editors.
 |  Feedback: | http://foswiki.org/Support/%TOPIC%Dev |
 
 
-%META:FILEATTACHMENT{name="CaptchaSnap1.png" attachment="CaptchaSnap1.png" attr="" comment="" date="1374090676" size="16367" user="micha" version="1"}%
+%META:FILEATTACHMENT{name="CaptchaSnap1.png" attachment="CaptchaSnap1.png" attr="" comment="" date="1374090676" size="16367" user="ProjectContributor" version="1"}%
