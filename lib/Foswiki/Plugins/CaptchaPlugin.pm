@@ -59,7 +59,7 @@ sub initPlugin {
   Foswiki::Func::registerTagHandler('CAPTCHACHECK', sub { return getCore(shift)->CAPTCHACHECK(@_); });
 
   # register rest backends
-  Foswiki::Func::registerRESTHandler("validate", \&restValidate);
+  Foswiki::Func::registerRESTHandler("validate", \&restValidate, authenticate => 0);
 
   # register jsonrpc backends
   Foswiki::Contrib::JsonRpcContrib::registerMethod(
