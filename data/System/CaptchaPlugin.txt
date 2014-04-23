@@ -124,6 +124,7 @@ needing extra provisions for other editors.
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | &nbsp; |
+|  04 Apr 2014: | flag rest handlers that don't require authentication |
 |  17 Jul 2013: | brought back to live and improved - Foswiki:Main.MichaelDaum |
 |  24 Dec 2009: | started to port to foswiki - Foswiki:Main.SvenDowideit |
 |  28 Oct 2007: | Fixed bug on <nop>RegistrationAgent |
