@@ -27,8 +27,8 @@ use Foswiki::Func ();
 use Foswiki::Plugins ();
 use Foswiki::OopsException ();
 
-our $VERSION = '2.01';
-our $RELEASE = '2.01';
+our $VERSION = '2.02';
+our $RELEASE = '2.02';
 our $SHORTDESCRIPTION = 'A visual challenge-response test to prevent automated scripts from using the wiki';
 our $NO_PREFS_IN_TOPIC = 1;
 our $core;
@@ -59,7 +59,11 @@ sub initPlugin {
   Foswiki::Func::registerTagHandler('CAPTCHACHECK', sub { return getCore(shift)->CAPTCHACHECK(@_); });
 
   # register rest backends
-  Foswiki::Func::registerRESTHandler("validate", \&restValidate, authenticate => 0);
+  Foswiki::Func::registerRESTHandler("validate", \&restValidate, 
+    authenticate => 0,
+    validate => 0,
+    http_allow => 'GET, POST',
+  );
 
   # register jsonrpc backends
   Foswiki::Contrib::JsonRpcContrib::registerMethod(

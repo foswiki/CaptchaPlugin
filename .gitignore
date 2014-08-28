@@ -1,0 +1,12 @@
+*.gz
+pub/System/CaptchaPlugin/jquery.captcha.js
+pub/System/CaptchaPlugin/jquery.captcha.css
+*.swp
+CaptchaPlugin.md5
+CaptchaPlugin.sha1
+CaptchaPlugin.tgz
+CaptchaPlugin.txt
+CaptchaPlugin.zip
+CaptchaPlugin_installer
+CaptchaPlugin_installer.pl
+lib/GD.orig/
