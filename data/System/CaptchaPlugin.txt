@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1374090677" format="1.1" reprev="2" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1417508823" format="1.1"  version="1"}%
 ---+!! %TOPIC%
 %SHORTDESCRIPTION%
 
@@ -124,6 +124,7 @@ needing extra provisions for other editors.
 |  Release: | %$RELEASE% |
 |  Version: | %$VERSION% |
 |  Change History: | &nbsp; |
+|  02 Dec 2014: | moving from jquery.tmpl to jsrender |
 |  28 Aug 2014: | specify rest security settings |
 |  04 Apr 2014: | flag rest handlers that don't require authentication |
 |  17 Jul 2013: | brought back to live and improved - Foswiki:Main.MichaelDaum |
@@ -140,5 +141,4 @@ needing extra provisions for other editors.
 |  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
 |  Feedback: | http://foswiki.org/Support/%TOPIC%Dev |
 
-
-%META:FILEATTACHMENT{name="CaptchaSnap1.png" attachment="CaptchaSnap1.png" attr="" comment="" date="1374090676" size="16367" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="CaptchaSnap1.png" attachment="CaptchaSnap1.png" attr="" comment="" date="1417508823" size="16367" user="ProjectContributor" version="1"}%

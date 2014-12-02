@@ -1,8 +1,8 @@
 jQuery(function($) {
 
   var defaults = {
-        endpoint: foswiki.getPreference('SCRIPTURL')+'/jsonrpc/CaptchaPlugin',
-        template: "<img src='${url}' height='${height}' width='${width}' /><input type='hidden' name='captcha_challenge' value='${challenge}' />",
+        endpoint: foswiki.getScriptUrl("jsonrpc", "CaptchaPlugin"),
+        template: "<img src='{{:url}}' height='{{:height}}' width='{{:width}}' /><input type='hidden' name='captcha_challenge' value='{{:challenge}}' />",
         captchaContainer: '.jqCaptchaContainer',
         reloadButton: '.jqCaptchaReload',
         challengeName: 'captcha_challenge',
@@ -41,8 +41,8 @@ jQuery(function($) {
         method:"create",
         params: captcha.options.createParams,
         success: function(json, status, xhr) {
-          //console.log(json);
-          $container.empty().append($.tmpl(captcha.options.template, json.result));
+          //console.log(json.result);
+          $container.html(captcha.template.render(json.result));
         },
         error: function(json, status, xhr) {
           // TODO
@@ -50,13 +50,16 @@ jQuery(function($) {
         }
       }
     );
-  }
+  };
 
   Captcha.prototype.init = function() {
     var captcha = this,
         $captcha = $(captcha.element);
 
     //console.log("init");
+
+    // compile template
+    captcha.template = $.templates(captcha.options.template);
     
     // loading img
     captcha.load(false);
@@ -119,10 +122,10 @@ jQuery(function($) {
 
     if (challenge && response) {
       $.ajax({
-        url: foswiki.getPreference("SCRIPTURL")+"/rest/CaptchaPlugin/validate",
+        url: foswiki.getScriptUrl("rest", "CaptchaPlugin", "validate"),
         async: false,
         data: {
-          t: (new Date).getTime(),
+          t: (new Date()).getTime(),
           challenge: challenge,
           response: response
         },

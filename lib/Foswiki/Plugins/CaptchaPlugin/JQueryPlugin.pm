@@ -20,7 +20,7 @@ sub new {
       css => ['jquery.captcha.css'],
       documentation => 'CaptchaPlugin',
       puburl => '%PUBURLPATH%/%SYSTEMWEB%/CaptchaPlugin',
-      dependencies => ['tmpl', 'jsonrpc', 'tooltip'],
+      dependencies => ['render', 'jsonrpc', ],
     ),
     $class
   );

@@ -1,7 +1,9 @@
 *.gz
+*.jslint
+*.swp
 pub/System/CaptchaPlugin/jquery.captcha.js
 pub/System/CaptchaPlugin/jquery.captcha.css
-*.swp
+pub/System/CaptchaPlugin/img/
 CaptchaPlugin.md5
 CaptchaPlugin.sha1
 CaptchaPlugin.tgz
@@ -10,3 +12,4 @@ CaptchaPlugin.zip
 CaptchaPlugin_installer
 CaptchaPlugin_installer.pl
 lib/GD.orig/
+igp_*
