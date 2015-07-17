@@ -1,7 +1,7 @@
 # Visual Confirmation Plugin for Foswiki Collaboration 
 # Platform, http://Foswiki.org/
 #
-# Copyright (C) 2011-2014 Michael Daum, http://michaeldaumconsulting.com
+# Copyright (C) 2011-2015 Michael Daum, http://michaeldaumconsulting.com
 # Copyright (C) 2005-2007 Koen Martens, kmartens@sonologic.nl
 # Copyright (C) 2007 KwangErn Liew, kwangern@musmo.com
 #
@@ -38,7 +38,7 @@ sub new {
 
   my $this = bless({
     store => $store,
-    debug => Foswiki::Func::isTrue($Foswiki::cfg{Plugins}{CaptchaPlugin}{Debug}),
+    debug => $Foswiki::cfg{Plugins}{CaptchaPlugin}{Debug},
     imgDir => $pubDir . "/System/CaptchaPlugin/img",
     fontsDir => $pubDir . "/System/CaptchaPlugin/fonts",
 
@@ -244,8 +244,12 @@ sub isValid {
 
   my $remoteAddress = Foswiki::Func::getRequestObject()->remoteAddress();
 
+  $this->writeDebug("called isValid from $remoteAddress");
+
   # check secret and remote address: the response must come from the same address the challenge was created for 
   my $isValid = ($this->{secret} eq lc($response) && $remoteAddress eq $this->{remoteAddress})?1:0;
+
+  $this->writeDebug("isValid=$isValid");
 
   $this->{counter}--; # tick every check
 
@@ -270,7 +274,10 @@ sub isValid {
   # - the challenge has been checked twice now or
   # - we force deletion now
 
-  $this->{store}->removeCaptcha($this) if !$isValid || $forceDelete || $this->{counter} <= 0;
+  if (!$isValid || $forceDelete || $this->{counter} <= 0) {
+    $this->writeDebug("deleting captcha");
+    $this->{store}->removeCaptcha($this);
+  }
 
   return $isValid;
 }

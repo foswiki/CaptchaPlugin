@@ -3,7 +3,7 @@
 *.swp
 pub/System/CaptchaPlugin/jquery.captcha.js
 pub/System/CaptchaPlugin/jquery.captcha.css
-pub/System/CaptchaPlugin/img/
+pub/System/CaptchaPlugin/img/*.png
 CaptchaPlugin.md5
 CaptchaPlugin.sha1
 CaptchaPlugin.tgz

@@ -12,6 +12,7 @@ lib/GD/SecurityImage.pm 0644
 lib/GD/SecurityImage/Styles.pm 0644
 locale/CaptchaPlugin/de.po 0644
 locale/CaptchaPlugin/Foswiki.pot 0644
+pub/System/CaptchaPlugin/img/README 0644
 pub/System/CaptchaPlugin/CaptchaSnap1.png 0644
 pub/System/CaptchaPlugin/fonts/AbscissaBold.ttf 0644
 pub/System/CaptchaPlugin/fonts/AcklinRegular.ttf 0644
