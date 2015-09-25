@@ -28,7 +28,7 @@ use Foswiki::Plugins ();
 use Foswiki::OopsException ();
 
 our $VERSION = '2.11';
-our $RELEASE = '2.11';
+our $RELEASE = '2 Dec 2014';
 our $SHORTDESCRIPTION = 'A visual challenge-response test to prevent automated scripts from using the wiki';
 our $NO_PREFS_IN_TOPIC = 1;
 our $core;

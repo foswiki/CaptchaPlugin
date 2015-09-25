@@ -114,16 +114,12 @@ needing extra provisions for other editors.
 
 %$INSTALL_INSTRUCTIONS%
 
----++ Plugin Info
-<!--
-   * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
--->
+---++ Dependencies
+%$DEPENDENCIES%
 
-|  Author(s): | Foswiki:Main.KoenMartens, Foswiki:Main.KwangErnLiew, Foswiki:Main.MichaelDaum |
-|  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Release: | %$RELEASE% |
-|  Version: | %$VERSION% |
-|  Change History: | &nbsp; |
+---++ Change History
+
+%TABLE{columnwidths="7em" tablewidth="100%"}%
 |  02 Dec 2014: | moving from jquery.tmpl to jsrender |
 |  28 Aug 2014: | specify rest security settings |
 |  04 Apr 2014: | flag rest handlers that don't require authentication |
@@ -137,8 +133,18 @@ needing extra provisions for other editors.
 |  03 Jan 2006: | Fixed some problems with expiry, also optimised according to !FastPluginHints. |
 |  10 Oct 2005: | Strip hash and text from arguments to register binary, or they will end up in the newly created user topic. |
 |  07 Oct 2005: | Initial version |
-|  Dependencies: | %$DEPENDENCIES% |
-|  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
-|  Feedback: | http://foswiki.org/Support/%TOPIC%Dev |
+
+<!--
+   * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
+-->
 
 %META:FILEATTACHMENT{name="CaptchaSnap1.png" attachment="CaptchaSnap1.png" attr="" comment="" date="1417508823" size="16367" user="ProjectContributor" version="1"}%
+%META:FORM{name="PackageForm"}%
+%META:FIELD{name="Author" title="Author" value="Foswiki:Main.KoenMartens, Foswiki:Main.KwangErnLiew, Foswiki:Main.MichaelDaum"}%
+%META:FIELD{name="Copyright" title="Copyright" value=""}%
+%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%TOPIC%"}%
+%META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
+%META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
+%META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/CaptchaPlugin"}%
+%META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/CaptchaPlugin"}%
+%META:FIELD{name="Version" title="Version" value="%$VERSION%"}%

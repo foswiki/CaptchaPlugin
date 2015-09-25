@@ -42,7 +42,7 @@ msgid ""
 "prevent automated spam submission."
 msgstr ""
 "Dies ist ein Sicherheits-Test, um zu prüfen, ob Sie ein menschlicher "
-"Besucher sind. Dadurch sollen automatische Spam-Registrierungen verhindern "
+"Besucher sind. Dadurch soll eine automatische Spam-Verschickungen verhindern "
 "werden."
 
 #: templates/captcha.tmpl:28
