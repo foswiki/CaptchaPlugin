@@ -1,6 +1,6 @@
 %META:TOPICINFO{author="ProjectContributor" date="1417508823" format="1.1"  version="1"}%
 ---+!! %TOPIC%
-%SHORTDESCRIPTION%
+%FORMFIELD{"Description"}%
 
 %TOC%
 
@@ -134,9 +134,6 @@ needing extra provisions for other editors.
 |  10 Oct 2005: | Strip hash and text from arguments to register binary, or they will end up in the newly created user topic. |
 |  07 Oct 2005: | Initial version |
 
-<!--
-   * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
--->
 
 %META:FILEATTACHMENT{name="CaptchaSnap1.png" attachment="CaptchaSnap1.png" attr="" comment="" date="1417508823" size="16367" user="ProjectContributor" version="1"}%
 %META:FORM{name="PackageForm"}%
@@ -145,6 +142,7 @@ needing extra provisions for other editors.
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%TOPIC%"}%
 %META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
 %META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
+%META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/CaptchaPlugin"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/CaptchaPlugin"}%
 %META:FIELD{name="Version" title="Version" value="%$VERSION%"}%
