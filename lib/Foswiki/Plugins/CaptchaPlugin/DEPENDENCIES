@@ -1,3 +1,4 @@
 Foswiki::Contrib::JsonRpcContrib,>=1.30,perl,Required. 
 Foswiki::Plugins::JQueryPlugin,>=6.00,perl,Required. 
 GD,>=2.39,cpan,Required.
+JSON,>=2.51,cpan,Required

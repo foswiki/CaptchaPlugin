@@ -59,7 +59,7 @@ sub readCaptcha {
   $this->lockDB(LOCK_SH);
 
   my %database;
-  tie(%database, 'DB_File', $this->{dbPath}, O_CREAT | O_RDONLY, 0664, $DB_HASH);
+  tie(%database, 'DB_File', $this->{dbPath}, O_CREAT | O_RDONLY, oct(664), $DB_HASH);
   
   my $val = $database{$challenge};
   return unless $val;
@@ -89,7 +89,7 @@ sub writeCaptcha {
   $this->lockDB;
 
   my %database;
-  tie(%database, 'DB_File', $this->{dbPath}, O_CREAT | O_RDWR, 0664, $DB_HASH);
+  tie(%database, 'DB_File', $this->{dbPath}, O_CREAT | O_RDWR, oct(664), $DB_HASH);
 
   #$this->writeDebug("storing secret=$captcha->{secret} challenge=$captcha->{challenge}");
 
@@ -114,7 +114,7 @@ sub removeCaptcha {
 
   $this->lockDB;
   my %database;
-  tie(%database, 'DB_File', $this->{dbPath}, O_CREAT | O_RDWR, 0664, $DB_HASH);
+  tie(%database, 'DB_File', $this->{dbPath}, O_CREAT | O_RDWR, oct(664), $DB_HASH);
 
   delete($database{$captcha->{challenge}});
 
@@ -137,7 +137,7 @@ sub lockDB {
   die "no dbPath" unless defined $this->{dbPath};
 
   my $lockfile = $this->{dbPath} . ".lock";
-  open($this->{lockFile}, ">$lockfile") or die "can't create lock file $lockfile";
+  open($this->{lockFile}, ">", $lockfile) or die "can't create lock file $lockfile";
   flock($this->{lockFile}, $mode);
 }
 
@@ -154,7 +154,7 @@ sub expire {
   my $this = shift;
 
   my %database;
-  tie(%database, 'DB_File', $this->{dbPath}, O_CREAT | O_RDONLY, 0664, $DB_HASH);
+  tie(%database, 'DB_File', $this->{dbPath}, O_CREAT | O_RDONLY, oct(664), $DB_HASH);
 
   my $now = time();
   while(my ($key,$val) = each %database) {

@@ -1,19 +1,29 @@
-jQuery(function($) {
+/*
+ * Captcha Plugin 2.20
+ *
+ * Copyright (c) 2011-2019 Michael Daum http://michaeldaumconsulting.com
+ *
+ * Licensed under the GPL licenses http://www.gnu.org/licenses/gpl.html
+ *
+ *
+ */
+"use strict";
+(function($) {
 
   var defaults = {
-        endpoint: foswiki.getScriptUrl("jsonrpc", "CaptchaPlugin"),
-        template: "<img src='{{:url}}' height='{{:height}}' width='{{:width}}' /><input type='hidden' name='captcha_challenge' value='{{:challenge}}' />",
-        captchaContainer: '.jqCaptchaContainer',
-        reloadButton: '.jqCaptchaReload',
-        challengeName: 'captcha_challenge',
-        responseName: 'captcha_response',
-        createParams: {
-          width:170,
-          height:65
-        },
-        validateOnSubmit: true,
-        disableOnSuccess: false
-      };
+    endpoint: null,
+    template: "<img src='{{:url}}' height='{{:height}}' width='{{:width}}' /><input type='hidden' name='captcha_challenge' value='{{:challenge}}' />",
+    captchaContainer: '.jqCaptchaContainer',
+    reloadButton: '.jqCaptchaReload',
+    challengeName: 'captcha_challenge',
+    responseName: 'captcha_response',
+    createParams: {
+      width:170,
+      height:65
+    },
+    validateOnSubmit: true,
+    disableOnSuccess: false
+  };
 
   // Captcha object
   function Captcha(element, options) {
@@ -22,7 +32,6 @@ jQuery(function($) {
     captcha.element = element;
     captcha.options = $.extend( {}, defaults, options) ;
 
-    //console.log("captcha=", captcha);
     captcha.init();
   }
 
@@ -40,11 +49,11 @@ jQuery(function($) {
         async: async,
         method:"create",
         params: captcha.options.createParams,
-        success: function(json, status, xhr) {
+        success: function(json) {
           //console.log(json.result);
           $container.html(captcha.template.render(json.result));
         },
-        error: function(json, status, xhr) {
+        error: function(json) {
           // TODO
           alert("Error: "+json.error.message);
         }
@@ -129,7 +138,7 @@ jQuery(function($) {
           challenge: challenge,
           response: response
         },
-        success: function(data, status, xhr) {
+        success: function(data) {
           isValid = (data === 'true');
         }
       });
@@ -191,11 +200,15 @@ jQuery(function($) {
   };
    
   // integrate into page
-  $(".jqCaptcha:not(.jqCaptchaInited)").livequery(function() {
-    var $this = $(this),
-        options = $.extend({}, $this.metadata());
+  $(function() {
+    defaults.endpoint = foswiki.getScriptUrl("jsonrpc", "CaptchaPlugin");
 
-    $this.addClass("jqCaptchaInited").captcha(options);
+    $(".jqCaptcha:not(.jqCaptchaInited)").livequery(function() {
+      var $this = $(this),
+          options = $.extend({}, $this.data());
+
+      $this.addClass("jqCaptchaInited").captcha(options);
+    });
   });
 
-});
+})(jQuery);

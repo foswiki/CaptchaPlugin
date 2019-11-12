@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1417508823" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1573546570" format="1.1"  version="1"}%
 ---+!! %TOPIC%
 %FORMFIELD{"Description"}%
 
@@ -54,7 +54,7 @@ You type:
 <div class="foswikiFormSteps">
   %CAPTCHAFORM%
   <div class="foswikiFormStep">
-    %BUTTON{"%MAKETEXT{"Submit"}%" icon="tick" type="submit"}%
+    %BUTTON{"%MAKETEXT{"Submit"}%" icon="fa-check" type="submit"}%
     %CLEAR%
   </div>
 </div>
@@ -63,8 +63,8 @@ You type:
 %CAPTCHACHECK{
   challenge="%URLPARAM{"captcha_challenge"}%"
   response="%URLPARAM{"captcha_response"}%"
-  error="%JQICON{"error"}% There was an error checking the validation code."
-  success="%JQICON{"accept"}% The validation code has been checked successfully."
+  error="<div class='foswikiErrorMessage'>There was an error checking the validation code.</div>"
+  success="<div class='foswikiSuccessMessage'>The validation code has been checked successfully.</div>"
 }%
 </verbatim>
 
@@ -75,7 +75,7 @@ You get:
 <div class="foswikiFormSteps">
   %CAPTCHAFORM%
   <div class="foswikiFormStep">
-    %BUTTON{"%MAKETEXT{"Submit"}%" icon="tick" type="submit"}%
+    %BUTTON{"%MAKETEXT{"Submit"}%" icon="fa-check" type="submit"}%
     %CLEAR%
   </div>
 </div>
@@ -84,8 +84,8 @@ You get:
 %CAPTCHACHECK{
   challenge="%URLPARAM{"captcha_challenge"}%"
   response="%URLPARAM{"captcha_response"}%"
-  error="%JQICON{"error"}% There was an error checking the validation code."
-  success="%JQICON{"accept"}% The validation code has been checked successfully."
+  error="<div class='foswikiErrorMessage'>There was an error checking the validation code.</div>"
+  success="<div class='foswikiSuccessMessage'>The validation code has been checked successfully.</div>"
 }%
 
 %IF{"context CaptchaPluginEnabled" else="</div>"}%
@@ -120,6 +120,7 @@ needing extra provisions for other editors.
 ---++ Change History
 
 %TABLE{columnwidths="7em" tablewidth="100%"}%
+|  12 Nov 2019: | address perl critiques |
 |  02 Dec 2014: | moving from jquery.tmpl to jsrender |
 |  28 Aug 2014: | specify rest security settings |
 |  04 Apr 2014: | flag rest handlers that don't require authentication |
@@ -135,14 +136,14 @@ needing extra provisions for other editors.
 |  07 Oct 2005: | Initial version |
 
 
-%META:FILEATTACHMENT{name="CaptchaSnap1.png" attachment="CaptchaSnap1.png" attr="" comment="" date="1417508823" size="16367" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="CaptchaSnap1.png" attachment="CaptchaSnap1.png" attr="" comment="" date="1573546570" size="16367" user="ProjectContributor" version="1"}%
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="Foswiki:Main.KoenMartens, Foswiki:Main.KwangErnLiew, Foswiki:Main.MichaelDaum"}%
 %META:FIELD{name="Copyright" title="Copyright" value=""}%
-%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%TOPIC%"}%
+%META:FIELD{name="Home" title="Home" value="https://foswiki.org/Extensions/%TOPIC%"}%
 %META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
 %META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
 %META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/CaptchaPlugin"}%
-%META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/CaptchaPlugin"}%
+%META:FIELD{name="Support" title="Support" value="https://foswiki.org/Support/CaptchaPlugin"}%
 %META:FIELD{name="Version" title="Version" value="%$VERSION%"}%

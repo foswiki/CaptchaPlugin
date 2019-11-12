@@ -1,7 +1,7 @@
 # Visual Confirmation Plugin for Foswiki Collaboration 
 # Platform, http://Foswiki.org/
 #
-# Copyright (C) 2011-2015 Michael Daum, http://michaeldaumconsulting.com
+# Copyright (C) 2011-2019 Michael Daum, http://michaeldaumconsulting.com
 # Copyright (C) 2005-2007 Koen Martens, kmartens@sonologic.nl
 # Copyright (C) 2007 KwangErn Liew, kwangern@musmo.com
 #
@@ -224,10 +224,11 @@ sub init {
   
 
     # write out image file
-    open(IMGFILE, ">" . $this->{imgPath});
-    binmode IMGFILE;
-    print IMGFILE $data;
-    close(IMGFILE);
+    my $IMGFILE;
+    open($IMGFILE, ">", $this->{imgPath});
+    binmode $IMGFILE;
+    print $IMGFILE $data;
+    close($IMGFILE);
 
     # remember challenge
     $this->{store}->writeCaptcha($this);

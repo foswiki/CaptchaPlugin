@@ -1,7 +1,7 @@
 # Visual Confirmation Plugin for Foswiki Collaboration
 # Platform, http://Foswiki.org/
 #
-# Copyright (C) 2011-2015 Michael Daum, http://michaeldaumconsulting.com
+# Copyright (C) 2011-2019 Michael Daum, http://michaeldaumconsulting.com
 # Copyright (C) 2005-2007 Koen Martens, kmartens@sonologic.nl
 # Copyright (C) 2007 KwangErn Liew, kwangern@musmo.com
 #
@@ -26,6 +26,7 @@ use warnings;
 use Foswiki::Func ();
 use Foswiki::Contrib::JsonRpcContrib::Error ();
 use Error qw(:try);
+use JSON ();
 
 # =========================
 sub new {
@@ -43,6 +44,14 @@ sub new {
 }
 
 # =========================
+sub DESTROY {
+  my $this = shift;
+
+  undef $this->{json};
+  undef $this->{store};
+}
+
+# =========================
 sub getStore {
   my $this = shift;
 
@@ -53,6 +62,18 @@ sub getStore {
 
   return $this->{store};
 }
+
+# =========================
+sub json {
+  my $this = shift;
+
+  unless (defined $this->{json}) {
+    $this->{json} = JSON->new; 
+  }
+
+  return $this->{json};
+}
+
 
 # =========================
 sub CAPTCHACHECK {
@@ -106,8 +127,26 @@ sub CAPTCHA {
   my ($this, $params, $topic, $web) = @_;
 
   Foswiki::Plugins::JQueryPlugin::createPlugin("captcha");
-  my $metadata = '{'.join(",", map('"'.$_.'": "'.$params->{$_}.'"', grep {!/^_/} keys %$params)).'}';
-  return "<span class='jqCaptcha ".$metadata."'><a href='#' class='jqTooltip jqCaptchaReload jqCaptchaContainer' title='%MAKETEXT{\"click to reload\"}%'></a></span>";
+  return "<span class='jqCaptcha' ".$this->toHtml5Data($params)."'><a href='#' class='jqTooltip jqCaptchaReload jqCaptchaContainer' title='%MAKETEXT{\"click to reload\"}%'></a></span>";
+}
+
+# =========================
+sub toHtml5Data {
+  my ($this, $params) = @_;
+
+  my @data = ();
+  foreach my $key (keys %$params) {
+    next if $key =~ /^_/;
+    my $val = $params->{$key};
+    if (ref($val)) {
+      $val = $this->json->encode($val);
+    } else {
+      $val = Foswiki::entityEncode($val);
+    }
+    push @data, "data-$key='$val'";
+  }
+
+  return join(" ", @data);
 }
 
 # =========================
@@ -121,7 +160,7 @@ sub isValidCaptcha {
     my $msg = "Warning: Requesting check on unknown captcha $challenge from $remoteAddress";
     Foswiki::Func::writeWarning($msg);
     print STDERR $msg."\n";
-    return;
+    return 0;
   }
 
   return $captcha->isValid($response, $forceDelete);

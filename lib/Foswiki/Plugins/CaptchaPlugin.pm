@@ -1,7 +1,7 @@
 # Visual Confirmation Plugin for Foswiki Collaboration
 # Platform, http://Foswiki.org/
 #
-# Copyright (C) 2011-2015 Michael Daum, http://michaeldaumconsulting.com
+# Copyright (C) 2011-2019 Michael Daum, http://michaeldaumconsulting.com
 # Copyright (C) 2005-2007 Koen Martens, kmartens@sonologic.nl
 # Copyright (C) 2007 KwangErn Liew, kwangern@musmo.com
 #
@@ -26,9 +26,11 @@ use warnings;
 use Foswiki::Func ();
 use Foswiki::Plugins ();
 use Foswiki::OopsException ();
+use Foswiki::Contrib::JsonRpcContrib ();
+use Foswiki::Plugins::JQueryPlugin ();
 
-our $VERSION = '2.11';
-our $RELEASE = '2 Dec 2014';
+our $VERSION = '2.20';
+our $RELEASE = '12 Nov 2019';
 our $SHORTDESCRIPTION = 'A visual challenge-response test to prevent automated scripts from using the wiki';
 our $NO_PREFS_IN_TOPIC = 1;
 our $core;
@@ -46,9 +48,6 @@ BEGIN {
     use warnings 'redefine';
   }
 }
-
-use Foswiki::Contrib::JsonRpcContrib ();
-use Foswiki::Plugins::JQueryPlugin ();
 
 # =========================
 sub initPlugin {
@@ -77,14 +76,16 @@ sub initPlugin {
   # register jquery plugin
   Foswiki::Plugins::JQueryPlugin::registerPlugin("captcha", "Foswiki::Plugins::CaptchaPlugin::JQueryPlugin");
 
-  # init vars
-  $core = undef;
-
   # enter CaptchaEnableSave context
   Foswiki::Func::getContext()->{CaptchaEnableSave} = 1
     if $Foswiki::cfg{Plugins}{CaptchaPlugin}{EnableSave};
 
   return 1;
+}
+
+# =========================
+sub finishPlugin {
+  undef $core;
 }
 
 # =========================

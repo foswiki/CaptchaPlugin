@@ -34,7 +34,7 @@ sub import {
    }
    elsif ( exists $opt{backend} && $opt{backend} ) {
       my $be  = __PACKAGE__.q{::}.$opt{backend};
-      my $eok = eval "require $be";
+      my $eok = eval {require $be};
       croak "Unable to locate the $class back-end $be: $@" if $@;
       $BACKEND = $opt{backend} eq 'AC' ? 'GD' : $opt{backend};
    }
