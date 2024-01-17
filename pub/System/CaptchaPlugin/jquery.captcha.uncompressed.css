@@ -1,5 +1,13 @@
 .jqCaptcha {
-  float:left;
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:stretch;
+}
+.jqCaptcha > div {
+  flex-grow:1;
+}
+.jqCaptcha > div > .foswikiInputField {
+  width:95%;
 }
 .jqCaptchaContainer {
   height:65px;
@@ -9,5 +17,5 @@
 .jqCaptchaContainer,
 .jqCaptchaContainer:hover {
   text-decoration:none;
-  background-color:transparent;
+  background-color:#fff;
 }

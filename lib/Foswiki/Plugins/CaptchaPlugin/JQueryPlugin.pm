@@ -1,7 +1,7 @@
 # Visual Confirmation Plugin for Foswiki Collaboration
 # Platform, http://Foswiki.org/
 #
-# Copyright (C) 2011-2019 Michael Daum, http://michaeldaumconsulting.com
+# Copyright (C) 2011-2024 Michael Daum, http://michaeldaumconsulting.com
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,12 +17,28 @@
 
 package Foswiki::Plugins::CaptchaPlugin::JQueryPlugin;
 
+=begin TML
+
+---+ package Foswiki::Plugins::CaptchaPlugin::JQueryPlugin
+
+stub for the jQuery module
+
+=cut
+
 use strict;
 use warnings;
 
 use Foswiki::Plugins::CaptchaPlugin ();
 use Foswiki::Plugins::JQueryPlugin::Plugin ();
 our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
+
+=begin TML
+
+---++ ClassMethod new() -> $core
+
+constructor for the jQuery object
+
+=cut
 
 sub new {
   my $class = shift;

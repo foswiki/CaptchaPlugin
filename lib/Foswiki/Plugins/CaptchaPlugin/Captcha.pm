@@ -1,7 +1,7 @@
 # Visual Confirmation Plugin for Foswiki Collaboration 
 # Platform, http://Foswiki.org/
 #
-# Copyright (C) 2011-2019 Michael Daum, http://michaeldaumconsulting.com
+# Copyright (C) 2011-2024 Michael Daum, http://michaeldaumconsulting.com
 # Copyright (C) 2005-2007 Koen Martens, kmartens@sonologic.nl
 # Copyright (C) 2007 KwangErn Liew, kwangern@musmo.com
 #
@@ -17,8 +17,15 @@
 # http://www.gnu.org/copyleft/gpl.html
 #
 
-# =========================
 package Foswiki::Plugins::CaptchaPlugin::Captcha;
+
+=begin TML
+
+---+ package Foswiki::Plugins::CaptchaPlugin::Captcha
+
+class to manage the captcha
+
+=cut
 
 use strict;
 use warnings;
@@ -28,7 +35,14 @@ use Digest::MD5 ();
 use DB_File;
 use GD::SecurityImage;# backend => 'Magick';
 
-# =========================
+=begin TML
+
+---++ ClassMethod new() -> $captcha
+
+constructor for a captcha object
+
+=cut
+
 sub new {
   my $class = shift;
   my $store = shift;
@@ -78,12 +92,26 @@ sub new {
   return $this;
 }
 
-# =========================
+=begin TML
+
+---++ ObjectMethod randomColor() -> [$r, g, b]
+
+returns a random rbg color
+
+=cut
+
 sub randomColor {
   return [ int(rand(255)), int(rand(255)), int(rand(255)) ]
 }
 
-# =========================
+=begin TML
+
+---++ ObjectMethod invertColor($rgb) -> [$r, $g, $b]
+
+inverts the givene color
+
+=cut
+
 sub invertColor {
   my $color = shift;
 
@@ -100,14 +128,28 @@ sub invertColor {
   return  [255 - $rgb[0], 255 - $rgb[1], 255 - $rgb[2]];
 }
 
-# =========================
+=begin TML
+
+---++ ObjectMethod writeDebug($message)
+
+prints debug $message to STDERR
+
+=cut
+
 sub writeDebug {
   my ($this, $message) = @_;
   #Foswiki::Func::writeDebug($message) if $this->{debug};
   print STDERR "CaptchaPlugin::Captcha - $message\n" if $this->{debug};
 }
 
-# =========================
+=begin TML
+
+---++ ObjectMethod toHash() -> $hash
+
+returns a hash representation of this captcha
+
+=cut
+
 sub toHash {
   my $this = shift;
 
@@ -121,7 +163,14 @@ sub toHash {
   };
 }
 
-# =========================
+=begin TML
+
+---++ ObjectMethod toHtml() -> $html
+
+returns a html representation of this captcha
+
+=cut
+
 sub toHtml {
   my $this = shift;
 
@@ -137,7 +186,14 @@ sub toHtml {
   return Foswiki::Func::decodeFormatTokens($format);
 }
 
-# =========================
+=begin TML
+
+---++ ObjectMethod init($dontCreate)
+
+inits this captcha
+
+=cut
+
 sub init {
   my ($this, $dontCreate) = @_;
 
@@ -240,6 +296,14 @@ sub init {
   $this->{imgUrl} = Foswiki::Func::getPubUrlPath() . "/System/CaptchaPlugin/img/" . $this->{challenge} . ".png";
 }
 
+=begin TML
+
+---++ ObjectMethod isValid($response, $forceDelete) -> $boolean
+
+returns true if the given response is valid with respect to this captcha
+
+=cut
+
 sub isValid {
   my ($this, $response, $forceDelete) = @_;
 
@@ -284,4 +348,3 @@ sub isValid {
 }
 
 1;
-

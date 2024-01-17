@@ -1,7 +1,7 @@
 /*
  * Captcha Plugin 2.20
  *
- * Copyright (c) 2011-2019 Michael Daum http://michaeldaumconsulting.com
+ * Copyright (c) 2011-2024 Michael Daum http://michaeldaumconsulting.com
  *
  * Licensed under the GPL licenses http://www.gnu.org/licenses/gpl.html
  *
@@ -96,7 +96,7 @@
 
     // add to submit event
     if (this.options.validateOnSubmit) {
-      $captcha.parents("form:first").submit(function() {
+      $captcha.parents("form:first").on("submit", function() {
         //console.log("captcha got a submit event");
         return captcha.validate();
       });
@@ -203,11 +203,11 @@
   $(function() {
     defaults.endpoint = foswiki.getScriptUrl("jsonrpc", "CaptchaPlugin");
 
-    $(".jqCaptcha:not(.jqCaptchaInited)").livequery(function() {
+    $(".jqCaptcha").livequery(function() {
       var $this = $(this),
           options = $.extend({}, $this.data());
 
-      $this.addClass("jqCaptchaInited").captcha(options);
+      $this.captcha(options);
     });
   });
 

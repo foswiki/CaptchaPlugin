@@ -1,7 +1,7 @@
 # Visual Confirmation Plugin for Foswiki Collaboration
 # Platform, http://Foswiki.org/
 #
-# Copyright (C) 2011-2019 Michael Daum, http://michaeldaumconsulting.com
+# Copyright (C) 2011-2024 Michael Daum, http://michaeldaumconsulting.com
 # Copyright (C) 2005-2007 Koen Martens, kmartens@sonologic.nl
 # Copyright (C) 2007 KwangErn Liew, kwangern@musmo.com
 #
@@ -17,8 +17,17 @@
 # http://www.gnu.org/copyleft/gpl.html
 #
 
-# =========================
 package Foswiki::Plugins::CaptchaPlugin::Core;
+
+=begin TML
+
+---+ package Foswiki::Plugins::CaptchaPlugin::Core
+
+core class for this plugin
+
+an singleton instance is allocated on demand
+
+=cut
 
 use strict;
 use warnings;
@@ -28,7 +37,15 @@ use Foswiki::Contrib::JsonRpcContrib::Error ();
 use Error qw(:try);
 use JSON ();
 
-# =========================
+
+=begin TML
+
+---++ ClassMethod new() -> $core
+
+constructor for a Core object
+
+=cut
+
 sub new {
   my $class = shift;
   my $session = shift;
@@ -43,7 +60,12 @@ sub new {
   return $this;
 }
 
-# =========================
+=begin TML
+
+---++ ObjectMethod DESTROY()
+
+=cut
+
 sub DESTROY {
   my $this = shift;
 
@@ -51,7 +73,14 @@ sub DESTROY {
   undef $this->{store};
 }
 
-# =========================
+=begin TML
+
+---++ ObjectMethod getStore() -> $store
+
+creates a store delegate
+
+=cut
+
 sub getStore {
   my $this = shift;
 
@@ -63,7 +92,14 @@ sub getStore {
   return $this->{store};
 }
 
-# =========================
+=begin TML
+
+---++ ObjectMethod json() -> $json
+
+creat3es a JSON delegate
+
+=cut
+
 sub json {
   my $this = shift;
 
@@ -75,7 +111,14 @@ sub json {
 }
 
 
-# =========================
+=begin TML
+
+---++ ObjectMethod CAPTCHACHECK($params, $topic, $web) -> $string
+
+implements the %CAPTCHACHECK macro
+
+=cut
+
 sub CAPTCHACHECK {
   my ($this, $params, $topic, $web) = @_;
 
@@ -95,7 +138,14 @@ sub CAPTCHACHECK {
   return Foswiki::Func::decodeFormatTokens($format);
 }
 
-# =========================
+=begin TML
+
+---++ ObjectMethod jsonRpcCreate($requesst)
+
+JSON-RPC backend for the create method
+
+=cut
+
 sub jsonRpcCreate {
   my ($this, $request) = @_;
 
@@ -106,7 +156,14 @@ sub jsonRpcCreate {
   )->toHash();
 }
 
-# =========================
+=begin TML
+
+---++ ObjectMethod CAPTCHAFORM($params, $topic, $web) -> $string
+
+implements the %CAPTCHAFORM macro
+
+=cut
+
 sub CAPTCHAFORM {
   my ($this, $params, $topic, $web) = @_;
 
@@ -122,15 +179,28 @@ sub CAPTCHAFORM {
   return $data;
 }
 
-# =========================
+=begin TML
+
+---++ ObjectMethod CAPTCHA($params, $topic, $web) -> $string
+
+implements the %CAPTCHA macro
+
+=cut
+
 sub CAPTCHA {
   my ($this, $params, $topic, $web) = @_;
 
   Foswiki::Plugins::JQueryPlugin::createPlugin("captcha");
   return "<span class='jqCaptcha' ".$this->toHtml5Data($params)."'><a href='#' class='jqTooltip jqCaptchaReload jqCaptchaContainer' title='%MAKETEXT{\"click to reload\"}%'></a></span>";
 }
+=begin TML
 
-# =========================
+---++ ObjectMethod toHtml5Data($data) -> $string
+
+converts the $data hash into a HTML5 data representation
+
+=cut
+
 sub toHtml5Data {
   my ($this, $params) = @_;
 
@@ -149,7 +219,14 @@ sub toHtml5Data {
   return join(" ", @data);
 }
 
-# =========================
+=begin TML
+
+---++ ObjectMethod isValidCaptcha($challenge, $responce, $forceDelete) -> $boolean
+
+returns true if the given challenge matches the captcha as stored
+
+=cut
+
 sub isValidCaptcha {
   my ($this, $challenge, $response, $forceDelete) = @_;
 
@@ -166,13 +243,20 @@ sub isValidCaptcha {
   return $captcha->isValid($response, $forceDelete);
 }
 
-# =========================
+=begin TML
+
+---++ ObjectMethod validateRegistration($data)
+
+throws a captcha exception if the captcha is invalid
+
+=cut
+
 sub validateRegistration {
   my ($this, $data) = @_;
 
   # not using $data as it requires special names on form fields
 
-  my $query = Foswiki::Func::getCgiQuery();
+  my $query = Foswiki::Func::getRequestObject();
   my $challenge = $query->param('captcha_challenge');
   my $response = $query->param('captcha_response');
 
@@ -186,7 +270,14 @@ sub validateRegistration {
   }
 }
 
-# ====================== ===
+=begin TML
+
+---++ ObjectMethod beforeSaveHandler()
+
+implements the before save validation
+
+=cut
+
 sub beforeSaveHandler {
   my ($this, undef, $topic, $web ) = @_;
 
@@ -195,7 +286,7 @@ sub beforeSaveHandler {
   return if $wikiName eq $Foswiki::cfg{Register}{RegistrationAgentWikiName};
   return unless $wikiName eq $Foswiki::cfg{DefaultUserWikiName} || $this->{saveForAll};
 
-  my $query = Foswiki::Func::getCgiQuery();
+  my $query = Foswiki::Func::getRequestObject();
   my $challenge = $query->param('captcha_challenge');
   my $response = $query->param('captcha_response');
 

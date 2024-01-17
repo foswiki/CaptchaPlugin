@@ -3,7 +3,7 @@
 # ---++ JQueryPlugin
 # ---+++ Extra plugins
 
-# **STRING**
+# **STRING EXPERT**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Captcha}{Module} = 'Foswiki::Plugins::CaptchaPlugin::JQueryPlugin';
 
 # **BOOLEAN**

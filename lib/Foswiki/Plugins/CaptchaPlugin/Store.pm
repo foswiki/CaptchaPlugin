@@ -1,7 +1,7 @@
 # Visual Confirmation Plugin for Foswiki Collaboration 
 # Platform, http://Foswiki.org/
 #
-# Copyright (C) 2011-2015 Michael Daum, http://michaeldaumconsulting.com
+# Copyright (C) 2011-2024 Michael Daum, http://michaeldaumconsulting.com
 # Copyright (C) 2005-2007 Koen Martens, kmartens@sonologic.nl
 # Copyright (C) 2007 KwangErn Liew, kwangern@musmo.com
 #
@@ -17,8 +17,15 @@
 # http://www.gnu.org/copyleft/gpl.html
 #
 
-# =========================
 package Foswiki::Plugins::CaptchaPlugin::Store;
+
+=begin TML
+
+---+ package Foswiki::Plugins::CaptchaPlugin::Store
+
+class to manage the captcha
+
+=cut
 
 use strict;
 use warnings;
@@ -27,7 +34,14 @@ use DB_File;
 use Fcntl qw(:flock);
 use Foswiki::Plugins::CaptchaPlugin::Captcha ();
 
-# =========================
+=begin TML
+
+---++ ClassMethod new() -> $store
+
+constructor for a store object
+
+=cut
+
 sub new {
   my $class = shift;
 
@@ -44,14 +58,28 @@ sub new {
   return $this;
 }
 
-# =========================
+=begin TML
+
+---++ ObjectMethod writeDebug($message)
+
+prints debug $message to STDERR
+
+=cut
+
 sub writeDebug {
   my ($this, $message) = @_;
   #Foswiki::Func::writeDebug($message) if $this->{debug};
   print STDERR "CaptchaPlugin::Store - $message\n" if $this->{debug};
 }
 
-# =========================
+=begin TML
+
+---++ ObjectMethod readCaptcha($challenge)
+
+reads the store and creates a Captcha object for it
+
+=cut
+
 sub readCaptcha {
   my ($this, $challenge) = @_;
 
@@ -82,7 +110,14 @@ sub readCaptcha {
   );
 }
 
-# =========================
+=begin TML
+
+---++ ObjectMethod writeCaptcha($captcha)
+
+takes a Captcha object and saves it into the store
+
+=cut
+
 sub writeCaptcha {
   my ($this, $captcha) = @_;
 
@@ -104,7 +139,14 @@ sub writeCaptcha {
   $this->unlockDB;
 }
 
-# =========================
+=begin TML
+
+---++ ObjectMethod removeCaptcha($captcha)
+
+deletes the store for the given captcha object
+
+=cut
+
 sub removeCaptcha {
   my ($this, $captcha) = @_;
 
@@ -128,7 +170,14 @@ sub removeCaptcha {
   unlink($imgPath);
 }
 
-# =========================
+=begin TML
+
+---++ ObjectMethod lockDB($mode)
+
+locking for the captcha store
+
+=cut
+
 sub lockDB {
   my ($this, $mode) = @_;
 
@@ -141,7 +190,14 @@ sub lockDB {
   flock($this->{lockFile}, $mode);
 }
 
-# =========================
+=begin TML
+
+---++ ObjectMethod unlockDB()
+
+unlocks the store
+
+=cut
+
 sub unlockDB {
   my $this = shift;
 
@@ -149,7 +205,14 @@ sub unlockDB {
   close($this->{lockFile});
 }
 
-# =========================
+=begin TML
+
+---++ ObjectMethod expire()
+
+expires objects stored in the database
+
+=cut
+
 sub expire {
   my $this = shift;
 

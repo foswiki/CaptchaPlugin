@@ -1,7 +1,7 @@
 # Visual Confirmation Plugin for Foswiki Collaboration
 # Platform, http://Foswiki.org/
 #
-# Copyright (C) 2011-2019 Michael Daum, http://michaeldaumconsulting.com
+# Copyright (C) 2011-2024 Michael Daum, http://michaeldaumconsulting.com
 # Copyright (C) 2005-2007 Koen Martens, kmartens@sonologic.nl
 # Copyright (C) 2007 KwangErn Liew, kwangern@musmo.com
 #
@@ -17,8 +17,15 @@
 # http://www.gnu.org/copyleft/gpl.html
 #
 
-# =========================
 package Foswiki::Plugins::CaptchaPlugin;
+
+=begin TML
+
+---+ package Foswiki::Plugins::CaptchaPlugin
+
+base class to hook into the foswiki core
+
+=cut
 
 use strict;
 use warnings;
@@ -29,9 +36,10 @@ use Foswiki::OopsException ();
 use Foswiki::Contrib::JsonRpcContrib ();
 use Foswiki::Plugins::JQueryPlugin ();
 
-our $VERSION = '2.20';
-our $RELEASE = '12 Nov 2019';
+our $VERSION = '2.30';
+our $RELEASE = '%$RELEASE%';
 our $SHORTDESCRIPTION = 'A visual challenge-response test to prevent automated scripts from using the wiki';
+our $LICENSECODE = '%$LICENSECODE%';
 our $NO_PREFS_IN_TOPIC = 1;
 our $core;
 our $origValidateRegistration;    # used for pre 2.3 foswikis
@@ -42,14 +50,21 @@ BEGIN {
 
     require Foswiki::UI::Register;
 
-    no warnings 'redefine';
+    no warnings 'redefine'; ## no critic
     $origValidateRegistration = \&Foswiki::UI::Register::_validateRegistration;
     *Foswiki::UI::Register::_validateRegistration = \&Foswiki::Plugins::CaptchaPlugin::validateRegistration;
     use warnings 'redefine';
   }
 }
 
-# =========================
+=begin TML
+
+---++ initPlugin($topic, $web, $user) -> $boolean
+
+initialize the plugin, automatically called during the core initialization process
+
+=cut
+
 sub initPlugin {
 
   # register macros
@@ -83,19 +98,41 @@ sub initPlugin {
   return 1;
 }
 
-# =========================
+=begin TML
+
+---++ finishPlugin
+
+finish the plugin and the core if it has been used,
+automatically called during the core initialization process
+
+=cut
+
 sub finishPlugin {
   undef $core;
 }
 
-# =========================
+=begin TML
+
+---++ ObjectMethod beforeSaveHandler()
+
+
+=cut
+
 sub beforeSaveHandler {
   return unless $Foswiki::cfg{Plugins}{CaptchaPlugin}{EnableSave};
 
   getCore()->beforeSaveHandler(@_);
 }
 
-# =========================
+=begin TML
+
+---++ getCore() -> $core
+
+returns a singleton Foswiki::Plugins::CaptchaPlugin::Core object for this plugin; a new core is allocated 
+during each session request; once a core has been created it is destroyed during =finishPlugin()=
+
+=cut
+
 sub getCore {
   my $session = shift;
 
@@ -109,14 +146,26 @@ sub getCore {
   return $core;
 }
 
-# =========================
-# Handler for $Foswiki::Plugins::VERSION >= 2.3 and later
+=begin TML
+
+---++ ObjectMethod validateRegistrationHandler()
+
+Handler for $Foswiki::Plugins::VERSION >= 2.3 and later
+
+=cut
+
 sub validateRegistrationHandler {
   return getCore()->validateRegistration(@_);
 }
 
-# =========================
-# only used for $Foswiki::Plugins::VERSION < 2.3
+=begin TML
+
+---++ ObjectMethod validateRegistration()
+
+only used for $Foswiki::Plugins::VERSION < 2.3
+
+=cut
+
 sub validateRegistration {
   my ($session, $data, $requireForm) = @_;
 
@@ -142,7 +191,12 @@ sub validateRegistration {
   &$origValidateRegistration($session, $data, $requireForm);
 }
 
-# =========================
+=begin TML
+
+---++ ObjectMethod restValidate()
+
+=cut
+
 sub restValidate {
   my $session = shift;
 

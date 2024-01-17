@@ -20,7 +20,7 @@ msgstr ""
 msgid "Attention"
 msgstr ""
 
-#: templates/captcha.tmpl:29
+#: templates/captcha.tmpl:27
 msgid "Invalid validation code"
 msgstr ""
 
@@ -36,20 +36,20 @@ msgstr ""
 msgid "The security code you entered for verification did not match the image."
 msgstr ""
 
-#: templates/captcha.tmpl:33
+#: templates/captcha.tmpl:30
 msgid ""
 "This is a security check to test whether you are a human visitor and to "
 "prevent automated spam submission."
 msgstr ""
 
-#: templates/captcha.tmpl:28
+#: templates/captcha.tmpl:26
 msgid "Validation successful"
 msgstr ""
 
-#: templates/captcha.tmpl:13
+#: templates/captcha.tmpl:12
 msgid "Verification code"
 msgstr ""
 
-#: templates/captcha.tmpl:18
+#: templates/captcha.tmpl:16
 msgid "get a different image"
 msgstr ""
