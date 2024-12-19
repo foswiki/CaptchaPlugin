@@ -36,7 +36,7 @@ use Foswiki::OopsException ();
 use Foswiki::Contrib::JsonRpcContrib ();
 use Foswiki::Plugins::JQueryPlugin ();
 
-our $VERSION = '2.30';
+our $VERSION = '2.31';
 our $RELEASE = '%$RELEASE%';
 our $SHORTDESCRIPTION = 'A visual challenge-response test to prevent automated scripts from using the wiki';
 our $LICENSECODE = '%$LICENSECODE%';
