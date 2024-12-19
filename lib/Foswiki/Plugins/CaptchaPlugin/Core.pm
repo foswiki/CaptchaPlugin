@@ -62,11 +62,11 @@ sub new {
 
 =begin TML
 
----++ ObjectMethod DESTROY()
+---++ ObjectMethod finish()
 
 =cut
 
-sub DESTROY {
+sub finish {
   my $this = shift;
 
   undef $this->{json};

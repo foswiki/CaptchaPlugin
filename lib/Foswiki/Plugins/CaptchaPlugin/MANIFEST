@@ -5,14 +5,10 @@ lib/Foswiki/Plugins/CaptchaPlugin/Captcha.pm 0644
 lib/Foswiki/Plugins/CaptchaPlugin/Config.spec 0644
 lib/Foswiki/Plugins/CaptchaPlugin/Core.pm 0644
 lib/Foswiki/Plugins/CaptchaPlugin/DEPENDENCIES 0644
+lib/Foswiki/Plugins/CaptchaPlugin/MANIFEST 0644
 lib/Foswiki/Plugins/CaptchaPlugin/JQueryPlugin.pm 0644
-lib/Foswiki/Plugins/CaptchaPlugin/OldCreateImage.bak 0644
 lib/Foswiki/Plugins/CaptchaPlugin.pm 0644
 lib/Foswiki/Plugins/CaptchaPlugin/Store.pm 0644
-lib/GD.orig/SecurityImage/GD.pm 0644
-lib/GD.orig/SecurityImage/Magick.pm 0644
-lib/GD.orig/SecurityImage.pm 0644
-lib/GD.orig/SecurityImage/Styles.pm 0644
 lib/GD/SecurityImage/GD.pm 0644
 lib/GD/SecurityImage/Magick.pm 0644
 lib/GD/SecurityImage.pm 0644

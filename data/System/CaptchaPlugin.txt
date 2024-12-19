@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1573546570" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1734611280" format="1.1"  version="1"}%
 ---+!! %TOPIC%
 %FORMFIELD{"Description"}%
 
@@ -107,7 +107,7 @@ Use the ={EnableSave}= switch to enable this. The captcha challenge for topic ed
 users by enabling the ={SaveForAll}= flag. WARNING: this might raise the barrier to contribute to the wiki a bit too high
 for practical use. Only enable this feature when you really know what you are doing.
 
-As by now the ={EnableSave}= feature is best integrated into the [[Foswiki:Extensions/NatEditPlugin][NatEditPlugin]] while
+As by now the ={EnableSave}= feature is best integrated into the [[https://foswiki.org/Extensions/NatEditPlugin][NatEditPlugin]] while
 needing extra provisions for other editors.
 
 ---++ Installation Instructions
@@ -136,7 +136,7 @@ needing extra provisions for other editors.
 |  07 Oct 2005: | Initial version |
 
 
-%META:FILEATTACHMENT{name="CaptchaSnap1.png" attachment="CaptchaSnap1.png" attr="" comment="" date="1573546570" size="16367" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="CaptchaSnap1.png" attachment="CaptchaSnap1.png" attr="" comment="" date="1734611280" size="16367" user="ProjectContributor" version="1"}%
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="Foswiki:Main.KoenMartens, Foswiki:Main.KwangErnLiew, Foswiki:Main.MichaelDaum"}%
 %META:FIELD{name="Copyright" title="Copyright" value=""}%

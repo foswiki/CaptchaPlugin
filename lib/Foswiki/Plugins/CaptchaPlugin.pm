@@ -108,6 +108,7 @@ automatically called during the core initialization process
 =cut
 
 sub finishPlugin {
+  $core->finish() if defined $core;
   undef $core;
 }
 
