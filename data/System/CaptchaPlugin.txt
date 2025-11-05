@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1734611280" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1762360339" format="1.1"  version="1"}%
 ---+!! %TOPIC%
 %FORMFIELD{"Description"}%
 
@@ -97,19 +97,6 @@ You get (if installed)
 %IF{"context CaptchaPluginEnabled" then="</div>"}%
 
 
----++ Captcha-protected editing of topics
-
-By switching on the ={EnableSave}= parameter in your Foswiki configuration, editing wiki topics will be guarded by
-requiring a captcha challenge to be passed. This feature is disabled by default as Foswiki core's own Strike-One mechanism
-is already well suited to protect accidental save actions to be performed (e.g. as performed by spam bots). In some cases
-an additional captcha guard might be interesting as to allow unauthenticated guests of a wiki to do regular edits.
-Use the ={EnableSave}= switch to enable this. The captcha challenge for topic edits can also be demanded even for registered
-users by enabling the ={SaveForAll}= flag. WARNING: this might raise the barrier to contribute to the wiki a bit too high
-for practical use. Only enable this feature when you really know what you are doing.
-
-As by now the ={EnableSave}= feature is best integrated into the [[https://foswiki.org/Extensions/NatEditPlugin][NatEditPlugin]] while
-needing extra provisions for other editors.
-
 ---++ Installation Instructions
 
 %$INSTALL_INSTRUCTIONS%
@@ -120,6 +107,7 @@ needing extra provisions for other editors.
 ---++ Change History
 
 %TABLE{columnwidths="7em" tablewidth="100%"}%
+|  05 Nov 2025: | removed captcha protected edit |
 |  12 Nov 2019: | address perl critiques |
 |  02 Dec 2014: | moving from jquery.tmpl to jsrender |
 |  28 Aug 2014: | specify rest security settings |
@@ -136,10 +124,10 @@ needing extra provisions for other editors.
 |  07 Oct 2005: | Initial version |
 
 
-%META:FILEATTACHMENT{name="CaptchaSnap1.png" attachment="CaptchaSnap1.png" attr="" comment="" date="1734611280" size="16367" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="CaptchaSnap1.png" attachment="CaptchaSnap1.png" attr="" comment="" date="1762360339" size="16367" user="ProjectContributor" version="1"}%
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="Foswiki:Main.KoenMartens, Foswiki:Main.KwangErnLiew, Foswiki:Main.MichaelDaum"}%
-%META:FIELD{name="Copyright" title="Copyright" value=""}%
+%META:FIELD{name="Copyright" title="Copyright" value="(c) 2007-2025 Foswiki Contributors"}%
 %META:FIELD{name="Home" title="Home" value="https://foswiki.org/Extensions/%TOPIC%"}%
 %META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
 %META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%

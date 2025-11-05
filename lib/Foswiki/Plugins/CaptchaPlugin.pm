@@ -1,7 +1,7 @@
 # Visual Confirmation Plugin for Foswiki Collaboration
 # Platform, http://Foswiki.org/
 #
-# Copyright (C) 2011-2024 Michael Daum, http://michaeldaumconsulting.com
+# Copyright (C) 2011-2025 Michael Daum, http://michaeldaumconsulting.com
 # Copyright (C) 2005-2007 Koen Martens, kmartens@sonologic.nl
 # Copyright (C) 2007 KwangErn Liew, kwangern@musmo.com
 #
@@ -36,7 +36,7 @@ use Foswiki::OopsException ();
 use Foswiki::Contrib::JsonRpcContrib ();
 use Foswiki::Plugins::JQueryPlugin ();
 
-our $VERSION = '2.31';
+our $VERSION = '3.00';
 our $RELEASE = '%$RELEASE%';
 our $SHORTDESCRIPTION = 'A visual challenge-response test to prevent automated scripts from using the wiki';
 our $LICENSECODE = '%$LICENSECODE%';
@@ -91,10 +91,6 @@ sub initPlugin {
   # register jquery plugin
   Foswiki::Plugins::JQueryPlugin::registerPlugin("captcha", "Foswiki::Plugins::CaptchaPlugin::JQueryPlugin");
 
-  # enter CaptchaEnableSave context
-  Foswiki::Func::getContext()->{CaptchaEnableSave} = 1
-    if $Foswiki::cfg{Plugins}{CaptchaPlugin}{EnableSave};
-
   return 1;
 }
 
@@ -110,19 +106,6 @@ automatically called during the core initialization process
 sub finishPlugin {
   $core->finish() if defined $core;
   undef $core;
-}
-
-=begin TML
-
----++ ObjectMethod beforeSaveHandler()
-
-
-=cut
-
-sub beforeSaveHandler {
-  return unless $Foswiki::cfg{Plugins}{CaptchaPlugin}{EnableSave};
-
-  getCore()->beforeSaveHandler(@_);
 }
 
 =begin TML
